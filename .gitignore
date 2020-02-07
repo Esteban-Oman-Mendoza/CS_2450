@@ -1,2 +1,4 @@
 # Prerequisites
 *.d
+*UVSim.cpp 
+*UVSim.h

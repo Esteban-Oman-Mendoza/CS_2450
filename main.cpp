@@ -1,10 +1,15 @@
-#import <iostream>
+#include <iostream>
+#include "UVSim.h"
+
+/*	Program: UVSim
+	Creators: Tyler Aldous, Colby Gardiner, Esteban <Last Name>, Kolton <Last Name>, Steven Anderson.
+	Project Description: UVSim will simulates machine code for students to learn machine language and architecture. */
+
 
 
 int main()
 {
-	cout << "Hi there tiger";
-
+	UVSim logic;
 
 	return 0;
 }
