@@ -10,6 +10,8 @@ public:
 	bool is_digits(const std::string &str);
 	int retrieve();
 
+	void subtract();
+
 };
 
 
