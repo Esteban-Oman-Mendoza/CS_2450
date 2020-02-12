@@ -32,3 +32,7 @@ int UVSim::retrieve()	// Get's number from keyboard and makes sure it's a valid 
 		std::getline(std::cin, input);
 	}
 }
+
+void UVSim::add()
+{
+}
