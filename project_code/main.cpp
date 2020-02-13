@@ -10,7 +10,10 @@
 int main()
 {
 	UVSim logic;
-	logic.retrieve();
+	
+
+
+
 	std::cin.get();
 	return 0;
 }
