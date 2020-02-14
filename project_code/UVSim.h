@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 const int MEM_SIZE = 100;
 
@@ -14,11 +15,12 @@ public:
 	// Helper functions
 	bool is_digits(const std::string &str);
 	int retrieve_int();
-	std::string retrieve_op();
+	std::vector<int> retrieve_op();
 
 	// Opcodes
 
 	// Function for Main
+	int execute();
 	void memory_dump();
 };
 
