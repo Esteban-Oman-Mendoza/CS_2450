@@ -4,7 +4,7 @@
 
 const int MEM_SIZE = 100;
 
- class UVSim
+class UVSim
 {
 private:
 	int memory[MEM_SIZE] = {};
@@ -18,6 +18,17 @@ public:
 	std::vector<int> retrieve_op();
 
 	// Opcodes
+	void read(int param);
+	void write(int param);
+	void load(int param);
+	void store(int param);
+	void add(int param);
+	void subtract(int param);
+	void multiply(int param);
+	void branch();
+	void branchneg();
+	void halt();
+
 
 	// Function for Main
 	int execute();

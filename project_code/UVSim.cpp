@@ -64,6 +64,46 @@ std::vector<int> UVSim::retrieve_op()		// Can add feature to search through vali
 	}
 }
 
+void UVSim::read(int param)
+{
+}
+
+void UVSim::write(int param)
+{
+}
+
+void UVSim::load(int param)
+{
+}
+
+void UVSim::store(int param)
+{
+}
+
+void UVSim::add(int param)
+{
+}
+
+void UVSim::subtract(int param)
+{
+}
+
+void UVSim::multiply(int param)
+{
+}
+
+void UVSim::branch()
+{
+}
+
+void UVSim::branchneg()
+{
+}
+
+void UVSim::halt()
+{
+}
+
 int UVSim::execute()
 {
 	std::string input = "";
