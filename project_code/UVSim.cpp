@@ -29,7 +29,7 @@ int UVSim::retrieve_int()	// Get's number from keyboard and makes sure it's a va
 	while (true)
 	{
 		if (is_digits(input) && 0 <= std::stoi(input) && input.size() <= MAXNUM)
-				return std::stoi(input);
+			return std::stoi(input);
 		std::cout << "Not a valid number. Please enter a non-negative integer less than " << MAXNUM + 1 << ":" << std::endl;
 		std::getline(std::cin, input);
 	}
@@ -64,6 +64,46 @@ std::vector<int> UVSim::retrieve_op()		// Can add feature to search through vali
 	}
 }
 
+void UVSim::read(int param)
+{
+}
+
+void UVSim::write(int param)
+{
+}
+
+void UVSim::load(int param)
+{
+}
+
+void UVSim::store(int param)
+{
+}
+
+void UVSim::add(int param)
+{
+}
+
+void UVSim::subtract(int param)
+{
+}
+
+void UVSim::multiply(int param)
+{
+}
+
+void UVSim::branch()
+{
+}
+
+void UVSim::branchneg()
+{
+}
+
+void UVSim::halt()
+{
+}
+
 int UVSim::execute()
 {
 	std::string input = "";
@@ -84,11 +124,54 @@ int UVSim::execute()
 	{
 		std::string op = std::to_string(memory[i]).substr(0, 2);
 		std::string param = std::to_string(memory[i]).substr(2, 2);
-		switch(std::stoi(op)) {
-//			case 10:											Example of opcode. Param is your parameter in string from.
-//				read(param);														pass in stoi if you want int.
-			default:
-				std::cout << "Unknown opcode" << std::endl;
+		switch (std::stoi(op)) {
+			//			case 10:											Example of opcode. Param is your parameter in string from.
+			//				read(param);														pass in stoi if you want int.
+
+		case 10:
+		//read
+
+		case 11: 
+		//Write
+
+		//Load and store operations
+
+		case 20:
+		//load
+
+		case 21: 
+		//store
+
+		//Arithmetic Operations
+		
+		case 30: 
+		//add
+
+		case 31:
+		//subtract
+
+		case 32:
+		//divide
+
+		case 33:
+		//multiply
+
+		//Control operations
+
+		case 40:
+		//branch
+
+		case 41:
+		//branchneg
+
+		case 42:
+		//branchzero
+
+		case 43:
+		//halt
+
+		default:
+			std::cout << "Unknown opcode" << std::endl;
 		}
 	}
 	return 0;
@@ -96,7 +179,7 @@ int UVSim::execute()
 
 void UVSim::memory_dump()
 {
-	std::cout << "---------Memory Dump----------" << std::endl << "\t"; 
+	std::cout << "---------Memory Dump----------" << std::endl << "\t";
 	for (size_t i = 0; i < 10; i++)
 	{
 		std::cout << i << "\t";
