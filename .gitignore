@@ -1,3 +1,4 @@
 # Prerequisites
 *.d
 *.vs
+*.DS_Store
