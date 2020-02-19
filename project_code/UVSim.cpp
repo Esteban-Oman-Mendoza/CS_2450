@@ -38,12 +38,18 @@ int UVSim::retrieve_int()	// Get's number from keyboard and makes sure it's a va
 std::vector<int> UVSim::retrieve_op()		// Can add feature to search through valid opcodes
 {
 	std::string input = "";
+	std::cout << "Please enter opcode: (-99999 to stop and execute)" << std::endl;
 	std::getline(std::cin, input);
 	std::vector<int> ret;
 	while (true)
 	{
 		if ((is_digits(input) && 0 <= std::stoi(input) && input.size() == OPCODELEN) || input == "-99999")
 		{
+			if (input == "")
+			{
+				ret.push_back(-99999);
+				return ret;
+			}
 			if (input != "-99999")
 			{
 				std::string op = input.substr(0, 2);
@@ -126,7 +132,7 @@ int UVSim::execute()
 		std::string param = std::to_string(memory[i]).substr(2, 2);
 		switch (std::stoi(op)) {
 			//			case 10:											Example of opcode. Param is your parameter in string from.
-			//				read(param);														pass in stoi if you want int.
+			//				read(std::stoi(param));														pass in stoi if you want int.
 
 		case 10:
 		//read
