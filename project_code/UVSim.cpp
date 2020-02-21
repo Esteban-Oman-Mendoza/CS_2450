@@ -10,6 +10,7 @@ const int OPCODELEN = 4;
 
 UVSim::UVSim()
 {
+	accumulator = 0;
 }
 
 
