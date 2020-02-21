@@ -8,6 +8,7 @@ class UVSim
 {
 private:
 	int memory[MEM_SIZE] = {};
+	int accumulator;
 
 public:
 	UVSim();
