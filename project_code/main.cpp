@@ -10,8 +10,6 @@
 int main()
 {
 	UVSim logic;
-	
-
 	logic.execute();
 	logic.memory_dump();
 	std::cin.get();
