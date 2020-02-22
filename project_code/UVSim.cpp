@@ -57,7 +57,7 @@ std::vector<int> UVSim::retrieve_op()		// Can add feature to search through vali
 				std::string param = input.substr(2, 2);
 				ret.push_back(std::stoi(op));
 				ret.push_back(std::stoi(param));
-				return ret;
+				return ret;				
 			}
 			else
 			{
@@ -99,6 +99,20 @@ void UVSim::multiply(int param)
 {
 }
 
+void UVSim::divide(int param)
+{
+	//memory_dump();
+	//Divide word from specific  location in memory by the accumulator
+	/*std::string dividend = std::to_string(memory[param]).substr(2, 2);
+	accumulator = std::stoi(dividend) / accumulator;
+	std::cout << accumulator << std::endl;*/
+
+	//Divide accumulator by word from specific  location in memory
+	std::string divisor = std::to_string(memory[param]).substr(2, 2);
+	accumulator = accumulator / std::stoi(divisor);
+	std::cout << accumulator << std::endl;
+}
+
 void UVSim::branch()
 {
 }
@@ -113,6 +127,7 @@ void UVSim::halt()
 
 int UVSim::execute()
 {
+	accumulator = 80;//FIXME setting to manual value, waiting for load function.
 	std::string input = "";
 	std::vector<int> opcode;
 	int count = 0;
@@ -136,47 +151,51 @@ int UVSim::execute()
 			//				read(std::stoi(param));														pass in stoi if you want int.
 
 		case 10:
+			break;
 		//read
 
 		case 11: 
 		//Write
-
+			break;
 		//Load and store operations
 
 		case 20:
 		//load
-
+			break;
 		case 21: 
 		//store
-
+			break;
 		//Arithmetic Operations
 		
 		case 30: 
 		//add
-
+			break;
 		case 31:
 		//subtract
-
+			break;
 		case 32:
 		//divide
-
+			//divide a word from a sepcific location in memory by the word in the 
+			//acumulator then leave results it acumulator
+			divide(std::stoi(param));
+			break;
 		case 33:
 		//multiply
-
+			break;
 		//Control operations
 
 		case 40:
 		//branch
-
+			break;
 		case 41:
 		//branchneg
-
+			break;
 		case 42:
 		//branchzero
-
+			break;
 		case 43:
 		//halt
-
+			break;
 		default:
 			std::cout << "Unknown opcode" << std::endl;
 		}

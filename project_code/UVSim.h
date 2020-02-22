@@ -26,6 +26,7 @@ public:
 	void add(int param);
 	void subtract(int param);
 	void multiply(int param);
+	void divide(int param);
 	void branch();
 	void branchneg();
 	void halt();
