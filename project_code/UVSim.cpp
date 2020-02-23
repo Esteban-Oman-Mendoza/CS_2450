@@ -73,10 +73,18 @@ std::vector<int> UVSim::retrieve_op()		// Can add feature to search through vali
 
 void UVSim::read(int param)
 {
+	std::string input = "";
+	int value = 0;
+	std::cout << "Enter an integer: ";
+	std::cin >> input;
+	value = stoi(input);
+	memory[param] = value;
 }
 
 void UVSim::write(int param)
 {
+	//write will print to console the contets of memory location 'param'
+	cout << memory[param] << endl;
 }
 
 void UVSim::load(int param)
@@ -85,6 +93,7 @@ void UVSim::load(int param)
 
 void UVSim::store(int param)
 {
+	memory[param] = accumulator;
 }
 
 void UVSim::add(int param)
@@ -151,11 +160,16 @@ int UVSim::execute()
 			//				read(std::stoi(param));														pass in stoi if you want int.
 
 		case 10:
+		//read
+			//accepts user input of integer into memory location 'param'
+			read(std::stoi(param));
 			break;
 		//read
 
 		case 11: 
 		//Write
+			//prints to console whatever is in the memory location of operand
+			write(std::stoi(param));
 			break;
 		//Load and store operations
 
@@ -164,6 +178,8 @@ int UVSim::execute()
 			break;
 		case 21: 
 		//store
+			//Stores accumulator in designated memory location
+			store(std::stoi(param));
 			break;
 		//Arithmetic Operations
 		
