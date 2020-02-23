@@ -107,7 +107,7 @@ void UVSim::multiply(int param)
 	{ 
 	std::string multiplyer = std::to_string(memory[param]).substr(2, 2); //Need to add a test for out of range erors. 
 	accumulator = accumulator * std::stoi(multiplyer);
-	std::cout << accumulator << std::endl; 
+	//std::cout << accumulator << std::endl;  DEBUG LINE
 	}
 }
 
@@ -122,7 +122,7 @@ void UVSim::divide(int param)
 	//Divide accumulator by word from specific  location in memory
 	std::string divisor = std::to_string(memory[param]).substr(2, 2);
 	accumulator = accumulator / std::stoi(divisor);
-	std::cout << accumulator << std::endl;
+	//std::cout << accumulator << std::endl; DEBUG LINE
 }
 
 void UVSim::branch()
@@ -219,6 +219,7 @@ int UVSim::execute()
 void UVSim::memory_dump()
 {
 	std::cout << "---------Memory Dump----------" << std::endl << "\t";
+	std::cout << accumulator; //FIXME debug line
 	for (size_t i = 0; i < 10; i++)
 	{
 		std::cout << i << "\t";
