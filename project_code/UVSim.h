@@ -1,17 +1,41 @@
 #pragma once
 #include <string>
+#include <vector>
 
+const int MEM_SIZE = 100;
 
- class UVSim
+class UVSim
 {
+private:
+	int memory[MEM_SIZE] = {};
+	int accumulator;
+
 public:
 	UVSim();
 	~UVSim();
-	bool is_digits(const std::string &str);
-	int retrieve();
+	// Helper functions
+	bool is_digits(const std::string& str);
+	int retrieve_int();
+	std::vector<int> retrieve_op();
 
-	void subtract();
+	// Opcodes
+	void read(int param);
+	void write(int param);
+	void load(int param);
+	void store(int param);
+	void add(int param);
+	void subtract(int param);
+	void multiply(int param);
+	void divide(int param);
+	void branch();
+	void branchneg();
+	void halt();
+	void IO();
 
+
+	// Function for Main
+	int execute();
+	void memory_dump();
 };
 
 
