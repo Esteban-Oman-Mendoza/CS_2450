@@ -84,7 +84,7 @@ void UVSim::read(int param)
 void UVSim::write(int param)
 {
 	//write will print to console the contets of memory location 'param'
-	cout << memory[param] << endl;
+	std::cout << memory[param] << std::endl;
 }
 
 void UVSim::load(int param)
