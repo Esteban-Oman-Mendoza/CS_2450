@@ -57,7 +57,7 @@ std::vector<int> UVSim::retrieve_op()		// Can add feature to search through vali
 				std::string param = input.substr(2, 2);
 				ret.push_back(std::stoi(op));
 				ret.push_back(std::stoi(param));
-				return ret;				
+				return ret;
 			}
 			else
 			{
@@ -97,6 +97,18 @@ void UVSim::subtract(int param)
 
 void UVSim::multiply(int param)
 {
+	//Multiply the accumulator by number in memory location. 
+	if (memory[param] == 0) //multiplying by zero. 
+	{
+		accumulator = 0;
+		return;
+	}
+	else
+	{ 
+	std::string multiplyer = std::to_string(memory[param]).substr(2, 2); //Need to add a test for out of range erors. 
+	accumulator = accumulator * std::stoi(multiplyer);
+	//std::cout << accumulator << std::endl;  DEBUG LINE
+	}
 }
 
 void UVSim::divide(int param)
@@ -110,7 +122,7 @@ void UVSim::divide(int param)
 	//Divide accumulator by word from specific  location in memory
 	std::string divisor = std::to_string(memory[param]).substr(2, 2);
 	accumulator = accumulator / std::stoi(divisor);
-	std::cout << accumulator << std::endl;
+	//std::cout << accumulator << std::endl; DEBUG LINE
 }
 
 void UVSim::branch()
@@ -152,49 +164,50 @@ int UVSim::execute()
 
 		case 10:
 			break;
-		//read
+			//read
 
-		case 11: 
-		//Write
+		case 11:
+			//Write
 			break;
-		//Load and store operations
+			//Load and store operations
 
 		case 20:
-		//load
+			//load
 			break;
-		case 21: 
-		//store
+		case 21:
+			//store
 			break;
-		//Arithmetic Operations
-		
-		case 30: 
-		//add
+			//Arithmetic Operations
+
+		case 30:
+			//add
 			break;
 		case 31:
-		//subtract
+			//subtract
 			break;
 		case 32:
-		//divide
-			//divide a word from a sepcific location in memory by the word in the 
-			//acumulator then leave results it acumulator
+			//divide
+				//divide a word from a sepcific location in memory by the word in the 
+				//acumulator then leave results it acumulator
 			divide(std::stoi(param));
 			break;
 		case 33:
-		//multiply
+			//multiply
+			multiply(std::stoi(param));
 			break;
-		//Control operations
+			//Control operations
 
 		case 40:
-		//branch
+			//branch
 			break;
 		case 41:
-		//branchneg
+			//branchneg
 			break;
 		case 42:
-		//branchzero
+			//branchzero
 			break;
 		case 43:
-		//halt
+			//halt
 			break;
 		default:
 			std::cout << "Unknown opcode" << std::endl;
@@ -206,6 +219,7 @@ int UVSim::execute()
 void UVSim::memory_dump()
 {
 	std::cout << "---------Memory Dump----------" << std::endl << "\t";
+	std::cout << accumulator; //FIXME debug line
 	for (size_t i = 0; i < 10; i++)
 	{
 		std::cout << i << "\t";
