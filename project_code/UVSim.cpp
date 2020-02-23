@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 
 //Globals
 const int MAXNUM = 9999;
@@ -73,12 +74,18 @@ std::vector<int> UVSim::retrieve_op()		// Can add feature to search through vali
 
 void UVSim::read(int param)
 {
-	std::string input = "";
+	//read() gets keyboard input of an integer and converts it to an int and places it in memory[param]
+	
 	int value = 0;
 	std::cout << "Enter an integer: ";
-	std::cin >> input;
-	value = stoi(input);
+	std::cin >> value;
+	if(!std::cin)
+	{
+		throw std::runtime_error("Your input was not an integer. Please restart the program.");
+	}
+	//value = stoi(input);
 	memory[param] = value;
+	
 }
 
 void UVSim::write(int param)
@@ -181,6 +188,7 @@ int UVSim::execute()
 			//Stores accumulator in designated memory location
 			store(std::stoi(param));
 			break;
+
 		//Arithmetic Operations
 		
 		case 30: 
@@ -231,7 +239,7 @@ void UVSim::memory_dump()
 	{
 		if (i % 10 == 0)
 		{
-			std::cout << (i / 10) + 1 << "\t";
+			std::cout << (i / 10) << "\t";
 		}
 		std::cout << memory[i] << "\t";
 		if (i % 10 == 9)

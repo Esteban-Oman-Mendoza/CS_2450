@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 #include "UVSim.h"
 
 /*	Program: UVSim
@@ -9,9 +10,16 @@
 
 int main()
 {
-	UVSim logic;
-	logic.execute();
-	logic.memory_dump();
-	std::cin.get();
-	return 0;
+	try
+	{
+		UVSim logic;
+		logic.execute();
+		logic.memory_dump();
+		std::cin.get();
+		return 0;
+	}
+	catch(std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 }
