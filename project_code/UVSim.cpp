@@ -44,7 +44,7 @@ std::vector<int> UVSim::retrieve_op()		// Can add feature to search through vali
 	std::vector<int> ret;
 	while (true)
 	{
-		if ((is_digits(input) && 0 <= std::stoi(input) && input.size() == OPCODELEN) || input == "-99999")
+		if (input != "" && (is_digits(input) && 0 <= std::stoi(input) && input.size() == OPCODELEN) || input == "-99999")
 		{
 			if (input == "")
 			{
@@ -212,7 +212,9 @@ int UVSim::execute()
 			//halt
 			break;
 		default:
-			std::cout << "Unknown opcode" << std::endl;
+			std::cout << "Invalid Opcode: " << (op + param) << "Press enter to quit..." << std::endl;
+			std::cin.get();
+			exit(1);
 		}
 	}
 	return 0;
