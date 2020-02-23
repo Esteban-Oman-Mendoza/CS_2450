@@ -199,6 +199,8 @@ int UVSim::execute()
 
 		case 40:
 			//branch
+			i = std::stoi(param);
+			std::cout << "Branching to " << param << std::endl;
 			break;
 		case 41:
 			//branchneg
