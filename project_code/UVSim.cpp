@@ -154,8 +154,25 @@ int UVSim::execute()
 		count++;
 	}
 
-	for (size_t i = 0; i < count; i++)
+	for (size_t i = 0; i <= MEM_SIZE; i++)
 	{
+		if (memory[i] == -99999)
+		{
+			std::cout << "Invalid Opcode: " << -99999 << "Press enter to quit..." << std::endl;
+			std::cin.get();
+			exit(1);
+		}
+		try 
+		{
+			std::string op = std::to_string(memory[i]).substr(0, 2);
+			std::string param = std::to_string(memory[i]).substr(2, 2);
+		}
+		catch (...)
+		{
+			std::cout << "tried to run non-opcode.\nPress enter to exit..." << std::endl;
+			std::cin.get();
+			exit(1);
+		}
 		std::string op = std::to_string(memory[i]).substr(0, 2);
 		std::string param = std::to_string(memory[i]).substr(2, 2);
 		switch (std::stoi(op)) {
@@ -212,12 +229,13 @@ int UVSim::execute()
 			//halt
 			break;
 		default:
-			std::cout << "Invalid Opcode: " << (op + param) << "Press enter to quit..." << std::endl;
+			std::cout << "Invalid Opcode: " << (op + param) << "\tin memory " << i << "\nPress enter to quit..." <<  std::endl;
 			std::cin.get();
 			exit(1);
 		}
 	}
-	return 0;
+	std::cout << "Read access violation.\nPress enter to quit..." << std::endl;
+	return 1;
 }
 
 void UVSim::memory_dump()
