@@ -36,32 +36,32 @@ int UVSim::retrieve_int()	// Get's number from keyboard and makes sure it's a va
 	}
 }
 
-std::vector<int> UVSim::retrieve_op()		// Can add feature to search through valid opcodes
+std::vector<std::string> UVSim::retrieve_op()		// Can add feature to search through valid opcodes
 {
 	std::string input = "";
 	std::cout << "Please enter opcode: (-99999 to stop and execute)" << std::endl;
 	std::getline(std::cin, input);
-	std::vector<int> ret;
+	std::vector<std::string> ret;
 	while (true)
 	{
-		if ((is_digits(input) && 0 <= std::stoi(input) && input.size() == OPCODELEN) || input == "-99999")
+		if (input != "" && (is_digits(input) && 0 <= std::stoi(input) && input.size() == OPCODELEN) || input == "-99999")
 		{
 			if (input == "")
 			{
-				ret.push_back(-99999);
+				ret.push_back("-99999");
 				return ret;
 			}
 			if (input != "-99999")
 			{
 				std::string op = input.substr(0, 2);
 				std::string param = input.substr(2, 2);
-				ret.push_back(std::stoi(op));
-				ret.push_back(std::stoi(param));
+				ret.push_back(op);
+				ret.push_back(param);
 				return ret;
 			}
 			else
 			{
-				ret.push_back(-99999);
+				ret.push_back("-99999");
 				return ret;
 			}
 		}
@@ -71,19 +71,24 @@ std::vector<int> UVSim::retrieve_op()		// Can add feature to search through vali
 	}
 }
 
-void UVSim::IO() {
-	std::cout << "\ncurrent accumulator value: ";
-	std::cout << accumulator;
+void UVSim::flags(int checker)
+{
+	if (checker < 0)
+		neg_flag = -1;
+	else if (checker == 0)
+		checker = 0;
+	else
+		neg_flag = 1;
 }
+
+int UVSim::flags()
+{
+	return neg_flag;
+}
+
 
 void UVSim::read(int param)
 {
-	std::string input = "";
-	int value = 0;
-	std::cout << "Enter an integer: ";
-	std::cin >> input;
-	value = stoi(input);
-	memory[param] = value;
 }
 
 void UVSim::write(int param)
@@ -98,29 +103,47 @@ void UVSim::load(int param)
 
 void UVSim::store(int param)
 {
-	//stores accumulator at the the indexed value of param in memory
-	int memoryLocation = param;
-	memory[memoryLocation] = accumulator;
 }
 
 void UVSim::add(int param)
 {
-	//adds the value at memory address param to accumulator and then stores in accumulator
 	int addValue = memory[param];
 	accumulator = accumulator + addValue;
 	std::cout << accumulator << std::endl;
 }
 
+void UVSim::addDirect(int param) {
+	int addValueDirect = param;
+	accumulator = accumulator + addValueDirect;
+}
+
 void UVSim::subtract(int param)
 {
-	//subtracts the value in memoery address param from accumulator and then stores in accumulator
 	int subtractValue = memory[param];
 	accumulator = accumulator - subtractValue;
 	std::cout << accumulator << std::endl;
 }
 
+void UVSim::subtractDirect(int param) {
+	int subtractValueDirect = param;
+	accumulator = accumulator - param;
+}
+
 void UVSim::multiply(int param)
 {
+	//Multiply the accumulator by number in memory location. 
+	if (memory[param] == 0) //multiplying by zero. 
+	{
+		accumulator = 0;
+		return;
+	}
+	else
+	{
+		std::string multiplyer = std::to_string(memory[param]).substr(2, 2); //Need to add a test for out of range erors. 
+		accumulator = accumulator * std::stoi(multiplyer);
+		//std::cout << accumulator << std::endl;  DEBUG LINE
+	}
+	flags(accumulator);
 }
 
 void UVSim::divide(int param)
@@ -134,15 +157,25 @@ void UVSim::divide(int param)
 	//Divide accumulator by word from specific  location in memory
 	std::string divisor = std::to_string(memory[param]).substr(2, 2);
 	accumulator = accumulator / std::stoi(divisor);
-	std::cout << accumulator << std::endl;
+	flags(accumulator);
+	//std::cout << accumulator << std::endl; DEBUG LINE
 }
 
-void UVSim::branch()
+void UVSim::branch(size_t* place, int param)
 {
+	*place = param - 1;
 }
 
-void UVSim::branchneg()
+void UVSim::branchneg(size_t* place, int param)
 {
+	if (neg_flag == -1)
+		branch(place, param);
+}
+
+void UVSim::branchzero(size_t* place, int param)
+{
+	if (neg_flag == 0)
+		branch(place, param);
 }
 
 void UVSim::halt()
@@ -153,48 +186,57 @@ int UVSim::execute()
 {
 	accumulator = 0;//FIXME setting to manual value, waiting for load function.
 	std::string input = "";
-	std::vector<int> opcode;
+	std::vector<std::string> opcode;
 	int count = 0;
 	while (input != "-99999" && count < 99)
 	{
 		opcode = retrieve_op();
-		if (opcode[0] != -99999)
-			input = std::to_string(opcode[0]) + std::to_string(opcode[1]);
+		if (opcode[0] != "-99999")
+			input = opcode[0] + opcode[1];
 		else
-			input = std::to_string(opcode[0]);
+		{
+			input = opcode[0];
+			continue;
+		}
 		memory[count] = std::stoi(input);
 		count++;
 	}
 
-	for (size_t i = 0; i < count; i++)
+	for (size_t i = 0; i <= MEM_SIZE; i++)
 	{
+
+		try
+		{
+			std::string op = std::to_string(memory[i]).substr(0, 2);
+			std::string param = std::to_string(memory[i]).substr(2, 2);
+		}
+		catch (...)
+		{
+			std::cout << "tried to run non-opcode.\nPress enter to exit..." << std::endl;
+			memory_dump();
+			std::cin.get();
+			exit(1);
+		}
 		std::string op = std::to_string(memory[i]).substr(0, 2);
 		std::string param = std::to_string(memory[i]).substr(2, 2);
 		switch (std::stoi(op)) {
-			//			case 10:											Example of opcode. Param is your parameter in string from.
+			//			case 10:											Example of opcode. Param is your parameter in string form.
 			//				read(std::stoi(param));														pass in stoi if you want int.
-		case 12:
-			//crude implementation of a register 0 to console. I made this to better test my load function feel free to delete.
-			IO();
-			std::cout << std::endl;
-			break;
+
 		case 10:
-			//read
-			read(std::stoi(param));
-			
 			break;
+			//read
+
 		case 11:
 			//Write
 			break;
 			//Load and store operations
 
 		case 20:
-			load(std::stoi(param));
 			//load
+			load(std::stoi(param));
 			break;
 		case 21:
-			//I implemented this crude store function I dont know if it fits with our vision I just needed it to check my load function.
-			store(std::stoi(param));
 			//store
 			break;
 			//Arithmetic Operations
@@ -215,31 +257,48 @@ int UVSim::execute()
 			break;
 		case 33:
 			//multiply
+			multiply(std::stoi(param));
 			break;
 			//Control operations
 
 		case 40:
-			//branch
-			break;
+			branch(&i, std::stoi(param));
 		case 41:
-			//branchneg
+			branchneg(&i, std::stoi(param));
 			break;
 		case 42:
-			//branchzero
+			branchzero(&i, std::stoi(param));
 			break;
 		case 43:
 			//halt
+			memory_dump();
+			return 0;
+			break;
+		case 50:
+			//direct add
+			addDirect(std::stoi(param));
+			break;
+		case 51:
+			//direct subtract
+			subtractDirect(std::stoi(param));
 			break;
 		default:
-			std::cout << "Unknown opcode" << std::endl;
+			std::cout << "Invalid Opcode: " << (op + param) << "\tin memory " << i << "\nPress enter to quit..." << std::endl;
+			memory_dump();
+			std::cin.get();
+			exit(1);
 		}
 	}
-	return 0;
+	std::cout << "Read access violation.\nPress enter to quit..." << std::endl;
+	return 1;
 }
 
 void UVSim::memory_dump()
 {
-	std::cout << "---------Memory Dump----------" << std::endl << "\t";
+	std::cout << "---------Memory Dump----------" << std::endl;
+	std::cout << "value in accumulator: ";
+	std::cout << accumulator;
+	std::cout << std::endl;//FIXME debug line
 	for (size_t i = 0; i < 10; i++)
 	{
 		std::cout << i << "\t";
