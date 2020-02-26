@@ -6,7 +6,7 @@
 
 //Globals
 const int MAXNUM = 9999;
-const int OPCODELEN = 4;
+const int OPCODELEN = 5;
 
 UVSim::UVSim()
 {
@@ -44,30 +44,34 @@ std::vector<std::string> UVSim::retrieve_op()		// Can add feature to search thro
 	std::vector<std::string> ret;
 	while (true)
 	{
-		if (input != "" && (is_digits(input) && 0 <= std::stoi(input) && input.size() == OPCODELEN) || input == "-99999")
+		if (input[0] == '-' || input[1] == '+')
 		{
-			if (input == "")
+			char polarity = input[0];
+			if (input != "" && (is_digits(input) && 0 <= std::stoi(input) && input.size() == OPCODELEN) || input == "-99999")
 			{
-				ret.push_back("-99999");
-				return ret;
+				if (input == "")
+				{
+					ret.push_back("-99999");
+					return ret;
+				}
+				if (input != "-99999")
+				{
+					std::string op = input.substr(0, 2);
+					std::string param = input.substr(2, 2);
+					ret.push_back(op);
+					ret.push_back(param);
+					return ret;
+				}
+				else
+				{
+					ret.push_back("-99999");
+					return ret;
+				}
 			}
-			if (input != "-99999")
-			{
-				std::string op = input.substr(0, 2);
-				std::string param = input.substr(2, 2);
-				ret.push_back(op);
-				ret.push_back(param);
-				return ret;
-			}
-			else
-			{
-				ret.push_back("-99999");
-				return ret;
-			}
-		}
 
-		std::cout << "Not a valid number. Please enter a valid four-digit op code" << ":" << std::endl;
-		std::getline(std::cin, input);
+			std::cout << "Not a valid number. Please enter a valid four-digit op code" << ":" << std::endl;
+			std::getline(std::cin, input);
+		}
 	}
 }
 
