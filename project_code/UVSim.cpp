@@ -45,12 +45,14 @@ std::vector<std::string> UVSim::retrieve_op()		// Can add feature to search thro
 	std::vector<std::string> ret;
 	while (true)
 	{
+		if (input != "-99999" && (input[0] == '-' || input[0] == '+'))
+			input.erase(0, 1);
 		if (input != "" && (is_digits(input) && 0 <= std::stoi(input) && input.size() == OPCODELEN) || input == "-99999")
 		{
 			if (input == "")
 			{
-				ret.push_back("-99999");
-				return ret;
+				std::cout << "Not a valid number. Please enter a valid four-digit op code" << ":" << std::endl;
+				std::getline(std::cin, input);
 			}
 			if (input != "-99999")
 			{
@@ -204,7 +206,6 @@ void UVSim::halt()
 
 int UVSim::execute()
 {
-	accumulator = 80;//FIXME setting to manual value, waiting for load function.
 	std::string input = "";
 	std::vector<std::string> opcode;
 	int count = 0;
@@ -293,6 +294,7 @@ int UVSim::execute()
 
 		case 40:
 			branch(&i, std::stoi(param));
+			break;
 		case 41:
 			branchneg(&i, std::stoi(param));
 			break;
@@ -300,6 +302,7 @@ int UVSim::execute()
 			branchzero(&i, std::stoi(param));
 			break;
 		case 43:
+			halt();
 		case 50:
 			//direct add
 			addDirect(std::stoi(param));
@@ -307,11 +310,6 @@ int UVSim::execute()
 		case 51:
 			//direct subtract
 			subtractDirect(std::stoi(param));
-			break;
-
-		//halt
-			halt();
-
 			break;
 		default:
 			std::cout << "Invalid Opcode: " << (op + param) << "\tin memory " << i << "\nPress enter to quit..." <<  std::endl;
