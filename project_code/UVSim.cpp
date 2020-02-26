@@ -54,6 +54,13 @@ std::vector<int> UVSim::retrieve_op()		// Can add feature to search through vali
 			}
 			if (input != "-99999")
 			{
+				if (input == "4300")
+				{
+					while (input != "-99999")
+					{
+						
+					}
+				}
 				std::string op = input.substr(0, 2);
 				std::string param = input.substr(2, 2);
 				ret.push_back(std::stoi(op));
@@ -139,6 +146,8 @@ void UVSim::branchneg()
 
 void UVSim::halt()
 {
+	memory_dump();
+	return;
 }
 
 int UVSim::execute()
@@ -219,6 +228,7 @@ int UVSim::execute()
 			break;
 		case 43:
 		//halt
+			halt();
 			break;
 		default:
 			std::cout << "Unknown opcode" << std::endl;
