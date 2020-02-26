@@ -54,13 +54,6 @@ std::vector<std::string> UVSim::retrieve_op()		// Can add feature to search thro
 			}
 			if (input != "-99999")
 			{
-				if (input == "4300")
-				{
-					while (input != "-99999")
-					{
-						
-					}
-				}
 				std::string op = input.substr(0, 2);
 				std::string param = input.substr(2, 2);
 				ret.push_back(op);
@@ -186,7 +179,8 @@ void UVSim::branchzero(size_t * place, int param)
 void UVSim::halt()
 {
 	memory_dump();
-	return;
+	system("pause");
+	exit(0);
 }
 
 int UVSim::execute()
