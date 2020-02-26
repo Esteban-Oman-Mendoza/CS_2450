@@ -27,7 +27,9 @@ public:
 	void load(int param);
 	void store(int param);
 	void add(int param);
+	void addDirect(int param);
 	void subtract(int param);
+	void subtractDirect(int param);
 	void multiply(int param);
 	void divide(int param);
 	void branch(size_t* place, int param);

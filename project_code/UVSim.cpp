@@ -119,6 +119,8 @@ void UVSim::write(int param)
 
 void UVSim::load(int param)
 {
+	int memoryValue = memory[param];
+	accumulator = memoryValue;
 }
 
 void UVSim::store(int param)
@@ -128,11 +130,28 @@ void UVSim::store(int param)
 
 void UVSim::add(int param)
 {
+	int addValue = memory[param];
+	accumulator = accumulator + addValue;
+	std::cout << accumulator << std::endl;
+}
+
+void UVSim::addDirect(int param) {
+	int addValueDirect = param;
+	accumulator = accumulator + addValueDirect;
 }
 
 void UVSim::subtract(int param)
 {
+	int subtractValue = memory[param];
+	accumulator = accumulator - subtractValue;
+	std::cout << accumulator << std::endl;
 }
+
+void UVSim::subtractDirect(int param) {
+	int subtractValueDirect = param;
+	accumulator = accumulator - param;
+}
+
 
 void UVSim::multiply(int param)
 {
@@ -248,6 +267,7 @@ int UVSim::execute()
 
 		case 20:
 			//load
+			load(std::stoi(param));
 			break;
 		case 21: 
 		//store
@@ -259,10 +279,11 @@ int UVSim::execute()
 		
 		case 30: 
 		//add
-
+			add(std::stoi(param));
 			break;
 		case 31:
 			//subtract
+			subtract(std::stoi(param));
 			break;
 		case 32:
 			//divide
@@ -285,6 +306,14 @@ int UVSim::execute()
 			branchzero(&i, std::stoi(param));
 			break;
 		case 43:
+		case 50:
+			//direct add
+			addDirect(std::stoi(param));
+			break;
+		case 51:
+			//direct subtract
+			subtractDirect(std::stoi(param));
+			break;
 
 		//halt
 			halt();
@@ -303,8 +332,10 @@ int UVSim::execute()
 
 void UVSim::memory_dump()
 {
-	std::cout << "---------Memory Dump----------" << std::endl << "\t";
-	std::cout << accumulator; //FIXME debug line
+	std::cout << "---------Memory Dump----------" << std::endl;
+	std::cout << "value in accumulator: ";
+	std::cout << accumulator;
+	std::cout << std::endl;
 	for (size_t i = 0; i < 10; i++)
 	{
 		std::cout << i << "\t";
