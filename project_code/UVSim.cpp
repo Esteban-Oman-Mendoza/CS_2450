@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 
 //Globals
 const int MAXNUM = 9999;
@@ -53,6 +54,13 @@ std::vector<std::string> UVSim::retrieve_op()		// Can add feature to search thro
 			}
 			if (input != "-99999")
 			{
+				if (input == "4300")
+				{
+					while (input != "-99999")
+					{
+						
+					}
+				}
 				std::string op = input.substr(0, 2);
 				std::string param = input.substr(2, 2);
 				ret.push_back(op);
@@ -89,10 +97,24 @@ int UVSim::flags()
 
 void UVSim::read(int param)
 {
+	//read() gets keyboard input of an integer and converts it to an int and places it in memory[param]
+	
+	int value = 0;
+	std::cout << "Enter an integer: ";
+	std::cin >> value;
+	if(!std::cin)
+	{
+		throw std::runtime_error("Your input was not an integer. Please restart the program.");
+	}
+	//value = stoi(input);
+	memory[param] = value;
+	
 }
 
 void UVSim::write(int param)
 {
+	//write will print to console the contets of memory location 'param'
+	std::cout << memory[param] << std::endl;
 }
 
 void UVSim::load(int param)
@@ -101,6 +123,7 @@ void UVSim::load(int param)
 
 void UVSim::store(int param)
 {
+	memory[param] = accumulator;
 }
 
 void UVSim::add(int param)
@@ -162,6 +185,8 @@ void UVSim::branchzero(size_t * place, int param)
 
 void UVSim::halt()
 {
+	memory_dump();
+	return;
 }
 
 int UVSim::execute()
@@ -206,24 +231,35 @@ int UVSim::execute()
 			//				read(std::stoi(param));														pass in stoi if you want int.
 
 		case 10:
+		//read
+			//accepts user input of integer into memory location 'param'
+			read(std::stoi(param));
 			break;
 			//read
 
-		case 11:
-			//Write
+
+		case 11: 
+		//Write
+			//prints to console whatever is in the memory location of operand
+			write(std::stoi(param));
+
 			break;
 			//Load and store operations
 
 		case 20:
 			//load
 			break;
-		case 21:
-			//store
+		case 21: 
+		//store
+			//Stores accumulator in designated memory location
+			store(std::stoi(param));
 			break;
-			//Arithmetic Operations
 
-		case 30:
-			//add
+		//Arithmetic Operations
+		
+		case 30: 
+		//add
+
 			break;
 		case 31:
 			//subtract
@@ -249,9 +285,10 @@ int UVSim::execute()
 			branchzero(&i, std::stoi(param));
 			break;
 		case 43:
-			//halt
-			memory_dump();
-			return 0;
+
+		//halt
+			halt();
+
 			break;
 		default:
 			std::cout << "Invalid Opcode: " << (op + param) << "\tin memory " << i << "\nPress enter to quit..." <<  std::endl;
@@ -277,7 +314,7 @@ void UVSim::memory_dump()
 	{
 		if (i % 10 == 0)
 		{
-			std::cout << (i / 10) + 1 << "\t";
+			std::cout << (i / 10) << "\t";
 		}
 		std::cout << memory[i] << "\t";
 		if (i % 10 == 9)
