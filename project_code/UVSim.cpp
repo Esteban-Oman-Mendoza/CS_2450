@@ -187,13 +187,13 @@ void UVSim::branch(size_t* place, int param)
 
 void UVSim::branchneg(size_t* place, int param)
 {
-	if (neg_flag == -1)
+	if (accumulator < 0)
 		branch(place, param);
 }
 
 void UVSim::branchzero(size_t * place, int param)
 {
-	if (neg_flag == 0)
+	if (accumulator == 0)
 		branch(place, param);
 }
 
