@@ -109,7 +109,7 @@ void UVSim::read(int param)
 void UVSim::write(int param)
 {
 	//write will print to console the contets of memory location 'param'
-	std::cout << memory[param] << std::endl;
+	std::cout << "Contents of " << param << " is: "<< memory[param] << std::endl;
 }
 
 void UVSim::load(int param)
@@ -328,16 +328,17 @@ void UVSim::memory_dump()
 	std::cout << "value in accumulator: ";
 	std::cout << accumulator;
 	std::cout << std::endl;
+	std::cout << '\t';
 	for (size_t i = 0; i < 10; i++)
 	{
-		std::cout << i << "\t";
+		std::cout << "0" << i << "\t";
 	}
 	std::cout << std::endl << std::endl;
 	for (size_t i = 0; i < MEM_SIZE; i++)
 	{
 		if (i % 10 == 0)
 		{
-			std::cout << (i / 10) << "\t";
+			std::cout << (i / 10) << "0" << "\t";
 		}
 		std::cout << memory[i] << "\t";
 		if (i % 10 == 9)
