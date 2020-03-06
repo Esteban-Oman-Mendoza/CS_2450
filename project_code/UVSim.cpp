@@ -158,8 +158,7 @@ void UVSim::multiply(int param)
 	}
 	else
 	{ 
-	std::string multiplyer = std::to_string(memory[param]).substr(2, 2); //Need to add a test for out of range erors. 
-	accumulator = accumulator * std::stoi(multiplyer);
+	accumulator = accumulator * memory[param];
 	//std::cout << accumulator << std::endl;  DEBUG LINE
 	}
 	flags(accumulator);
