@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-const int MEM_SIZE = 100;
+const int MEM_SIZE = 1000;
 
 class UVSim
 {
