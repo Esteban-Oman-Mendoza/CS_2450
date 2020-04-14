@@ -10,6 +10,7 @@ private:
 	int memory[MEM_SIZE] = {};
 	int accumulator;
 	int neg_flag = 0;
+	bool debug = false;
 
 public:
 	UVSim();

@@ -14,7 +14,7 @@ int main()
 	{
 		UVSim logic;
 		logic.execute();
-		std::cin.get();
+		system("pause");
 		return 0;
 	}
 	catch(std::exception& e)
