@@ -16,6 +16,7 @@ int main()
 		logic.execute();
 		logic.memory_dump();
 		std::cin.get();
+
 		return 0;
 	}
 	catch (std::exception& e)

@@ -211,7 +211,7 @@ int UVSim::execute()
 	std::string input = "";
 	std::vector<std::string> opcode;
 	int count = 0;
-	while (input != "-99999" && count < 99)
+	while (input != "-99999"  && count < 99)
 	{
 		opcode = retrieve_op();
 		if (opcode[0] != "-99999")
@@ -225,18 +225,14 @@ int UVSim::execute()
 		count++;
 	}
 
+  std::string pause;
 	for (size_t i = 0; i < opCounter; i++)
-	{
-		//int digits = memory[i];
-		//std::string strDigits = "";
-		//strDigits = std::to_string(digits);
-
-		//if (strDigits.size() != 4)
-		//{
-		//	continue;
-		//}
 
 		try
+	{
+		if (debug)
+			system("pause");
+		try 
 		{
 			std::string op = std::to_string(memory[i]).substr(0, 2);
 			std::string param = std::to_string(memory[i]).substr(2, 2);
@@ -321,6 +317,19 @@ int UVSim::execute()
 			//direct subtract
 			subtractDirect(std::stoi(param));
 			break;
+		case 55:
+			//Memory dump
+			memory_dump();
+			break;
+		case 56:
+			//Break
+			debug = 1;
+			break;
+		case 57:
+			//Continue
+			debug = 0;
+			break;
+
 		default:
 			std::cout << "Invalid Opcode: " << (op + param) << "\tin memory " << i << "\nPress enter to quit..." << std::endl;
 			memory_dump();

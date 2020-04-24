@@ -12,6 +12,8 @@ private:
 	int neg_flag = 0;
 	int opCounter;
 
+	bool debug = false;
+
 public:
 	UVSim();
 	~UVSim();
