@@ -14,10 +14,12 @@ int main()
 	{
 		UVSim logic;
 		logic.execute();
-		system("pause");
+		logic.memory_dump();
+		std::cin.get();
+
 		return 0;
 	}
-	catch(std::exception& e)
+	catch (std::exception& e)
 	{
 		std::cout << e.what() << std::endl;
 	}

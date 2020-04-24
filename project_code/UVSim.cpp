@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <stdexcept>
+#include <iomanip>
 
 //Globals
 const int MAXNUM = 9999;
@@ -12,6 +13,7 @@ const int OPCODELEN = 4;
 UVSim::UVSim()
 {
 	accumulator = 0;
+	opCounter = 0;
 }
 
 
@@ -19,7 +21,7 @@ UVSim::~UVSim()
 {
 }
 
-bool UVSim::is_digits(const std::string & str)	// Helper function, checks if string is all digits	
+bool UVSim::is_digits(const std::string& str)	// Helper function, checks if string is all digits	
 {
 	return all_of(str.begin(), str.end(), ::isdigit);
 }
@@ -56,6 +58,7 @@ std::vector<std::string> UVSim::retrieve_op()		// Can add feature to search thro
 			}
 			if (input != "-99999")
 			{
+				opCounter++;
 				std::string op = input.substr(0, 2);
 				std::string param = input.substr(2, 2);
 				ret.push_back(op);
@@ -93,23 +96,23 @@ int UVSim::flags()
 void UVSim::read(int param)
 {
 	//read() gets keyboard input of an integer and converts it to an int and places it in memory[param]
-	
+
 	int value = 0;
 	std::cout << "Enter an integer: ";
 	std::cin >> value;
-	if(!std::cin)
+	if (!std::cin)
 	{
 		throw std::runtime_error("Your input was not an integer. Please restart the program.");
 	}
 	//value = stoi(input);
 	memory[param] = value;
-	
+
 }
 
 void UVSim::write(int param)
 {
 	//write will print to console the contets of memory location 'param'
-	std::cout << "Contents of " << param << " is: "<< memory[param] << std::endl;
+	std::cout << "Contents of " << param << " is: " << memory[param] << std::endl;
 }
 
 void UVSim::load(int param)
@@ -127,7 +130,7 @@ void UVSim::add(int param)
 {
 	int addValue = memory[param];
 	accumulator = accumulator + addValue;
-	std::cout << accumulator << std::endl;
+	//std::cout << accumulator << std::endl;
 }
 
 void UVSim::addDirect(int param) {
@@ -157,9 +160,9 @@ void UVSim::multiply(int param)
 		return;
 	}
 	else
-	{ 
-	accumulator = accumulator * memory[param];
-	//std::cout << accumulator << std::endl;  DEBUG LINE
+	{
+		accumulator = accumulator * memory[param];
+		//std::cout << accumulator << std::endl;  DEBUG LINE
 	}
 	flags(accumulator);
 }
@@ -181,7 +184,7 @@ void UVSim::divide(int param)
 
 void UVSim::branch(size_t* place, int param)
 {
-	*place = param -1;
+	*place = param - 1;
 }
 
 void UVSim::branchneg(size_t* place, int param)
@@ -190,7 +193,7 @@ void UVSim::branchneg(size_t* place, int param)
 		branch(place, param);
 }
 
-void UVSim::branchzero(size_t * place, int param)
+void UVSim::branchzero(size_t* place, int param)
 {
 	if (accumulator == 0)
 		branch(place, param);
@@ -222,8 +225,10 @@ int UVSim::execute()
 		count++;
 	}
 
-	std::string pause;
-	for (size_t i = 0; i <= MEM_SIZE; i++)
+  std::string pause;
+	for (size_t i = 0; i < opCounter; i++)
+
+		try
 	{
 		if (debug)
 			system("pause");
@@ -246,16 +251,16 @@ int UVSim::execute()
 			//				read(std::stoi(param));														pass in stoi if you want int.
 
 		case 10:
-		//read
-			//accepts user input of integer into memory location 'param'
+			//read
+				//accepts user input of integer into memory location 'param'
 			read(std::stoi(param));
 			break;
 			//read
 
 
-		case 11: 
-		//Write
-			//prints to console whatever is in the memory location of operand
+		case 11:
+			//Write
+				//prints to console whatever is in the memory location of operand
 			write(std::stoi(param));
 
 			break;
@@ -265,16 +270,16 @@ int UVSim::execute()
 			//load
 			load(std::stoi(param));
 			break;
-		case 21: 
-		//store
-			//Stores accumulator in designated memory location
+		case 21:
+			//store
+				//Stores accumulator in designated memory location
 			store(std::stoi(param));
 			break;
 
-		//Arithmetic Operations
-		
-		case 30: 
-		//add
+			//Arithmetic Operations
+
+		case 30:
+			//add
 			add(std::stoi(param));
 			break;
 		case 31:
@@ -326,14 +331,14 @@ int UVSim::execute()
 			break;
 
 		default:
-			std::cout << "Invalid Opcode: " << (op + param) << "\tin memory " << i << "\nPress enter to quit..." <<  std::endl;
+			std::cout << "Invalid Opcode: " << (op + param) << "\tin memory " << i << "\nPress enter to quit..." << std::endl;
 			memory_dump();
 			std::cin.get();
 			exit(1);
 		}
 	}
-	std::cout << "Read access violation.\nPress enter to quit..." << std::endl;
-	return 1;
+	//std::cout << "Read access violation.\nPress enter to quit..." << std::endl;
+	//return 1;
 }
 
 void UVSim::memory_dump()
@@ -354,7 +359,7 @@ void UVSim::memory_dump()
 		{
 			std::cout << (i / 10) << "0" << "\t";
 		}
-		std::cout << memory[i] << "\t";
+		std::cout << std::setfill('0') << std::setw(6) << memory[i] << "\t";
 		if (i % 10 == 9)
 		{
 
@@ -362,5 +367,3 @@ void UVSim::memory_dump()
 		}
 	}
 }
-
-

@@ -1,8 +1,8 @@
-#pragma once
+
 #include <string>
 #include <vector>
 
-const int MEM_SIZE = 100;
+const int MEM_SIZE = 1000;
 
 class UVSim
 {
@@ -10,13 +10,15 @@ private:
 	int memory[MEM_SIZE] = {};
 	int accumulator;
 	int neg_flag = 0;
+	int opCounter;
+
 	bool debug = false;
 
 public:
 	UVSim();
 	~UVSim();
 	// Helper functions
-	bool is_digits(const std::string &str);
+	bool is_digits(const std::string& str);
 	int retrieve_int();
 	std::vector<std::string> retrieve_op();
 	void flags(int checker);
@@ -44,5 +46,3 @@ public:
 	int execute();
 	void memory_dump();
 };
-
-
