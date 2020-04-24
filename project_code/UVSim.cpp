@@ -226,117 +226,115 @@ int UVSim::execute()
 	}
 
   std::string pause;
-	for (size_t i = 0; i < opCounter; i++)
+  for (size_t i = 0; i < opCounter; i++)
+  {
+	  if (debug)
+		  system("pause");
+	  try
+	  {
+		  std::string op = std::to_string(memory[i]).substr(0, 2);
+		  std::string param = std::to_string(memory[i]).substr(2, 2);
+	  }
+	  catch (...)
+	  {
+		  std::cout << "tried to run non-opcode.\nPress enter to exit..." << std::endl;
+		  memory_dump();
+		  std::cin.get();
+		  exit(1);
+	  }
+	  std::string op = std::to_string(memory[i]).substr(0, 2);
+	  std::string param = std::to_string(memory[i]).substr(2, 2);
+	  switch (std::stoi(op)) {
+		  //			case 10:											Example of opcode. Param is your parameter in string form.
+		  //				read(std::stoi(param));														pass in stoi if you want int.
 
-		try
-	{
-		if (debug)
-			system("pause");
-		try 
-		{
-			std::string op = std::to_string(memory[i]).substr(0, 2);
-			std::string param = std::to_string(memory[i]).substr(2, 2);
-		}
-		catch (...)
-		{
-			std::cout << "tried to run non-opcode.\nPress enter to exit..." << std::endl;
-			memory_dump();
-			std::cin.get();
-			exit(1);
-		}
-		std::string op = std::to_string(memory[i]).substr(0, 2);
-		std::string param = std::to_string(memory[i]).substr(2, 2);
-		switch (std::stoi(op)) {
-			//			case 10:											Example of opcode. Param is your parameter in string form.
-			//				read(std::stoi(param));														pass in stoi if you want int.
-
-		case 10:
-			//read
-				//accepts user input of integer into memory location 'param'
-			read(std::stoi(param));
-			break;
-			//read
+	  case 10:
+		  //read
+			  //accepts user input of integer into memory location 'param'
+		  read(std::stoi(param));
+		  break;
+		  //read
 
 
-		case 11:
-			//Write
-				//prints to console whatever is in the memory location of operand
-			write(std::stoi(param));
+	  case 11:
+		  //Write
+			  //prints to console whatever is in the memory location of operand
+		  write(std::stoi(param));
 
-			break;
-			//Load and store operations
+		  break;
+		  //Load and store operations
 
-		case 20:
-			//load
-			load(std::stoi(param));
-			break;
-		case 21:
-			//store
-				//Stores accumulator in designated memory location
-			store(std::stoi(param));
-			break;
+	  case 20:
+		  //load
+		  load(std::stoi(param));
+		  break;
+	  case 21:
+		  //store
+			  //Stores accumulator in designated memory location
+		  store(std::stoi(param));
+		  break;
 
-			//Arithmetic Operations
+		  //Arithmetic Operations
 
-		case 30:
-			//add
-			add(std::stoi(param));
-			break;
-		case 31:
-			//subtract
-			subtract(std::stoi(param));
-			break;
-		case 32:
-			//divide
-				//divide a word from a sepcific location in memory by the word in the 
-				//acumulator then leave results it acumulator
-			divide(std::stoi(param));
-			break;
-		case 33:
-			//multiply
-			multiply(std::stoi(param));
-			break;
-			//Control operations
+	  case 30:
+		  //add
+		  add(std::stoi(param));
+		  break;
+	  case 31:
+		  //subtract
+		  subtract(std::stoi(param));
+		  break;
+	  case 32:
+		  //divide
+			  //divide a word from a sepcific location in memory by the word in the 
+			  //acumulator then leave results it acumulator
+		  divide(std::stoi(param));
+		  break;
+	  case 33:
+		  //multiply
+		  multiply(std::stoi(param));
+		  break;
+		  //Control operations
 
-		case 40:
-			branch(&i, std::stoi(param));
-			break;
-		case 41:
-			branchneg(&i, std::stoi(param));
-			break;
-		case 42:
-			branchzero(&i, std::stoi(param));
-			break;
-		case 43:
-			halt();
-		case 50:
-			//direct add
-			addDirect(std::stoi(param));
-			break;
-		case 51:
-			//direct subtract
-			subtractDirect(std::stoi(param));
-			break;
-		case 55:
-			//Memory dump
-			memory_dump();
-			break;
-		case 56:
-			//Break
-			debug = 1;
-			break;
-		case 57:
-			//Continue
-			debug = 0;
-			break;
+	  case 40:
+		  branch(&i, std::stoi(param));
+		  break;
+	  case 41:
+		  branchneg(&i, std::stoi(param));
+		  break;
+	  case 42:
+		  branchzero(&i, std::stoi(param));
+		  break;
+	  case 43:
+		  halt();
+	  case 50:
+		  //direct add
+		  addDirect(std::stoi(param));
+		  break;
+	  case 51:
+		  //direct subtract
+		  subtractDirect(std::stoi(param));
+		  break;
+	  case 55:
+		  //Memory dump
+		  memory_dump();
+		  break;
+	  case 56:
+		  //Break
+		  debug = 1;
+		  break;
+	  case 57:
+		  //Continue
+		  debug = 0;
+		  break;
 
-		default:
-			std::cout << "Invalid Opcode: " << (op + param) << "\tin memory " << i << "\nPress enter to quit..." << std::endl;
-			memory_dump();
-			std::cin.get();
-			exit(1);
-		}
-	}
+	  default:
+		  std::cout << "Invalid Opcode: " << (op + param) << "\tin memory " << i << "\nPress enter to quit..." << std::endl;
+		  memory_dump();
+		  std::cin.get();
+		  exit(1);
+	  }
+  }
 	//std::cout << "Read access violation.\nPress enter to quit..." << std::endl;
 	//return 1;
 }
